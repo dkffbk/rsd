@@ -1,6 +1,6 @@
 import { useApp } from "../ThemedApp";
 
-import { Box, AppBar, ToolBar, Typography, IconButton } from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import {
   Menu as MenuIcon,
   Add as AddIcon,
@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <AppBar position="static">
-      <ToolBar>
+      <Toolbar>
         <IconButton color="inherit" edge="start">
           <MenuIcon />
         </IconButton>
@@ -23,7 +23,7 @@ export default function Header() {
             <LightModeIcon />
           </IconButton>
         </Box>
-      </ToolBar>
+      </Toolbar>
     </AppBar>
   );
 }

@@ -13,6 +13,10 @@ const theme = createTheme({
 
 export const AppContext = createContext();
 
+export function useApp() {
+  return useContext(AppContext);
+}
+
 export default function ThemedApp() {
   const [showForm, setShowForm] = useState(false);
 
