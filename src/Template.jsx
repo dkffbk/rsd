@@ -1,4 +1,5 @@
 import { Box, Container, Snackbar } from "@mui/material";
+
 import { Outlet } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -8,6 +9,7 @@ import { useApp } from "./ThemedApp";
 
 export default function Template() {
   const { globalMsg, setGlobalMsg } = useApp();
+
   return (
     <Box>
       <Header />

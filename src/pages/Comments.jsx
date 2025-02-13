@@ -1,5 +1,7 @@
 import { Box, Button, TextField } from "@mui/material";
+
 import Item from "../components/Item";
+
 export default function Comments() {
   return (
     <Box>
@@ -31,8 +33,16 @@ export default function Comments() {
         }}
         remove={() => {}}
       />
+
       <form>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            mt: 3,
+          }}
+        >
           <TextField multiline placeholder="Your Comment" />
           <Button type="submit" variant="contained">
             Reply

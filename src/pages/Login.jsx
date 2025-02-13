@@ -1,4 +1,5 @@
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../ThemedApp";
 
@@ -21,7 +22,14 @@ export default function Login() {
           navigate("/");
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            mt: 2,
+          }}
+        >
           <TextField placeholder="Username" fullWidth />
           <TextField type="password" placeholder="Password" fullWidth />
           <Button type="submit" variant="contained" fullWidth>

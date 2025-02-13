@@ -1,6 +1,7 @@
 import {
   Box,
   Drawer,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -8,7 +9,6 @@ import {
   ListItemText,
   Avatar,
   Typography,
-  Divider,
 } from "@mui/material";
 
 import {
@@ -20,18 +20,19 @@ import {
 } from "@mui/icons-material";
 
 import { deepPurple } from "@mui/material/colors";
-import { useApp } from "../ThemedApp";
 
 import { useNavigate } from "react-router-dom";
 
+import { useApp } from "../ThemedApp";
 
 export default function AppDrawer() {
   const { showDrawer, setShowDrawer, auth, setAuth } = useApp();
+
   const navigate = useNavigate();
 
   return (
-    <Drawer open={showDrawer} onClose={() => setShowDrawer(false)}>
-      <Box sx={{ width: 300 }}>
+    <div>
+      <Drawer open={showDrawer} onClose={() => setShowDrawer(false)}>
         <Box
           sx={{
             mb: 6,
@@ -73,7 +74,8 @@ export default function AppDrawer() {
             </ListItemButton>
           </ListItem>
           <Divider />
-          {auth ? (
+
+          {auth && (
             <>
               <ListItem>
                 <ListItemButton onClick={() => navigate("/profile/1")}>
@@ -92,7 +94,9 @@ export default function AppDrawer() {
                 </ListItemButton>
               </ListItem>
             </>
-          ) : (
+          )}
+
+          {!auth && (
             <>
               <ListItem>
                 <ListItemButton onClick={() => navigate("/register")}>
@@ -113,7 +117,7 @@ export default function AppDrawer() {
             </>
           )}
         </List>
-      </Box>
-    </Drawer>
+      </Drawer>
+    </div>
   );
 }

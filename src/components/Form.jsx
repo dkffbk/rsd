@@ -1,17 +1,17 @@
 import { useRef } from "react";
+
 import { Box, TextField, Button } from "@mui/material";
 
 export default function Form({ add }) {
   const contentRef = useRef();
-  const nameRef = useRef();
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         const content = contentRef.current.value;
-        const name = nameRef.current.value;
 
-        add(content, name);
+        add(content, "Alice");
 
         e.currentTarget.reset();
       }}
@@ -23,13 +23,6 @@ export default function Form({ add }) {
           placeholder="Content"
           fullWidth
           multiline
-          sx={{ mb: 1 }}
-        />
-        <TextField
-          inputRef={nameRef}
-          type="text"
-          placeholder="Your Name"
-          fullWidth
           sx={{ mb: 1 }}
         />
         <Button variant="contained" type="submit">

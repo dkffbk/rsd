@@ -1,13 +1,11 @@
 import { useState } from "react";
 
-import { Box, Container, Snackbar } from "@mui/material";
+import { Box } from "@mui/material";
 
 import Form from "../components/Form";
 import Item from "../components/Item";
 
 import { useApp } from "../ThemedApp";
-import AppDrawer from "../components/AppDrawer";
-import { Outlet } from "react-router-dom";
 
 export default function Home() {
   const { showForm, setGlobalMsg } = useApp();
@@ -20,18 +18,19 @@ export default function Home() {
 
   const remove = (id) => {
     setData(data.filter((item) => item.id !== id));
-    setGlobalMsg("An Item Deleted");
+    setGlobalMsg("An item deleted");
   };
 
   const add = (content, name) => {
     const id = data[0].id + 1;
     setData([{ id, content, name }, ...data]);
-    setGlobalMsg("An Item Added");
+    setGlobalMsg("An item added");
   };
 
   return (
     <Box>
       {showForm && <Form add={add} />}
+
       {data.map((item) => {
         return <Item key={item.id} item={item} remove={remove} />;
       })}

@@ -1,11 +1,5 @@
-import { useState, createContext, useContext } from "react";
-import {
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-  Snackbar,
-} from "@mui/material";
-
+import { useState, createContext, useContext, useMemo } from "react";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { deepPurple, grey } from "@mui/material/colors";
@@ -64,14 +58,18 @@ export default function ThemedApp() {
   const [auth, setAuth] = useState(null);
   const [mode, setMode] = useState("dark");
 
-  const theme = createTheme({
-    palette: {
-      mode,
-      primary: deepPurple,
-      banner: mode === "dark" ? grey[800] : grey[200],
-      text: { fade: grey[500] },
-    },
-  });
+  const theme = useMemo(() => {
+    return createTheme({
+      palette: {
+        mode,
+        primary: deepPurple,
+        banner: mode === "dark" ? grey[800] : grey[200],
+        text: {
+          fade: grey[500],
+        },
+      },
+    });
+  }, [mode]);
 
   return (
     <ThemeProvider theme={theme}>
