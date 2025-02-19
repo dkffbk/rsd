@@ -20,9 +20,7 @@ import {
 } from "@mui/icons-material";
 
 import { deepPurple } from "@mui/material/colors";
-
 import { useNavigate } from "react-router-dom";
-
 import { useApp } from "../ThemedApp";
 
 export default function AppDrawer() {
@@ -61,10 +59,12 @@ export default function AppDrawer() {
                 background: deepPurple[500],
               }}
             />
-            <Typography sx={{ fontWeight: "bold" }}>Alice</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>
+              {auth ? auth.name : "Guest"}
+            </Typography>
           </Box>
         </Box>
-        <List>
+        <List onClick={() => setShowDrawer(false)}>
           <ListItem>
             <ListItemButton onClick={() => navigate("/")}>
               <ListItemIcon>
@@ -78,7 +78,7 @@ export default function AppDrawer() {
           {auth && (
             <>
               <ListItem>
-                <ListItemButton onClick={() => navigate("/profile/1")}>
+                <ListItemButton onClick={() => navigate(`/profile/${auth.id}`)}>
                   <ListItemIcon>
                     <ProfileIcon />
                   </ListItemIcon>

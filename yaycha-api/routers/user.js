@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const prisma = require("../prismaClient");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 router.get("/users", async (req, res) => {
   const data = await prisma.user.findMany({
@@ -11,7 +13,7 @@ router.get("/users", async (req, res) => {
   res.json(data);
 });
 
-router.get("users/:id", async (req, res) => {
+router.get("/users/:id", async (req, res) => {
   const { id } = req.params;
 
   const data = await prisma.user.findFirst({
@@ -35,6 +37,26 @@ router.post("/users", async (req, res) => {
     data: { name, username, password: hash, bio },
   });
   res.json(user);
+});
+
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ msg: "username and password required" });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username },
+  });
+
+  if (user) {
+    if (bcrypt.compare(password, user.password)) {
+      const token = jwt.sign(user, process.env.JWT_SECRET);
+      return res.json({ token, user });
+    }
+  }
+  res.status(401).json({ msg: "incorrect username or password" });
 });
 
 module.exports = { userRouter: router };

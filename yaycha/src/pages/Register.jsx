@@ -1,15 +1,61 @@
 import { Box, Button, TextField, Typography, Alert } from "@mui/material";
+import { useRef, useState } from "react";
+import { useMutation } from "react-query";
+import { postUser } from "../libs/fetcher";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../ThemedApp";
 
 export default function Register() {
+  const { setGlobalMsg } = useApp();
+
+  const nameInput = useRef();
+  const usernameInput = useRef();
+  const bioInput = useRef();
+  const passwordInput = useRef();
+
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    const name = nameInput.current.value;
+    const username = usernameInput.current.value;
+    const bio = bioInput.current.value;
+    const password = passwordInput.current.value;
+
+    if (!name || !username || !password) {
+      setError("name, username and password required");
+      return false;
+    }
+
+    create.mutate({ name, username, bio, password });
+  };
+
+  const create = useMutation(async (data) => postUser(data), {
+    onError: async () => {
+      setError("Cannot Create Account...");
+    },
+    onSuccess: async () => {
+      setGlobalMsg("Account Created...");
+      navigate("/login");
+    },
+  });
+
   return (
     <Box>
       <Typography variant="h3">Register</Typography>
 
-      <Alert severity="warning" sx={{ mt: 2 }}>
-        All fields required
-      </Alert>
+      {error && (
+        <Alert severity="warning" sx={{ mt: 2 }}>
+          {error}
+        </Alert>
+      )}
 
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -18,10 +64,19 @@ export default function Register() {
             mt: 2,
           }}
         >
-          <TextField placeholder="Name" fullWidth />
-          <TextField placeholder="Username" fullWidth />
-          <TextField placeholder="Bio" fullWidth />
-          <TextField type="password" placeholder="Password" fullWidth />
+          <TextField inputRef={nameInput} placeholder="Name" fullWidth />
+          <TextField
+            inputRef={usernameInput}
+            placeholder="Username"
+            fullWidth
+          />
+          <TextField inputRef={bioInput} placeholder="Bio" fullWidth />
+          <TextField
+            inputRef={passwordInput}
+            type="password"
+            placeholder="Password"
+            fullWidth
+          />
           <Button type="submit" variant="contained" fullWidth>
             Register
           </Button>
