@@ -1,7 +1,8 @@
-import { useState, createContext, useContext, useMemo } from "react";
+import { useState, createContext, useContext, useMemo, useEffect } from "react";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { fetchVerify } from "./libs/fetcher";
 
 import { deepPurple, grey } from "@mui/material/colors";
 
@@ -73,6 +74,12 @@ export default function ThemedApp() {
       },
     });
   }, [mode]);
+
+  useEffect(() => {
+    fetchVerify().then((user) => {
+      if (user) setAuth(user);
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

@@ -7,11 +7,12 @@ import { useApp } from "../ThemedApp";
 
 import { useQuery, useMutation } from "react-query";
 import { queryClient } from "../ThemedApp";
+import { postPost } from "../libs/fetcher";
 
 const api = import.meta.env.VITE_API;
 
 export default function Home() {
-  const { showForm, setGlobalMsg } = useApp();
+  const { showForm, setGlobalMsg, auth } = useApp();
   const { isLoading, isError, error, data } = useQuery("posts", async () => {
     const res = await fetch(`${api}/content/posts`);
     return res.json();
@@ -34,9 +35,13 @@ export default function Home() {
     }
   );
 
-  const add = () => {
-    setGlobalMsg("A post added");
-  };
+  const add = useMutation(async (content) => postPost(content), {
+    onSuccess: async (post) => {
+      await queryClient.cancelQueries("posts");
+      await queryClient.setQueryData("posts", (old) => [post, ...old]);
+      setGlobalMsg("A post has been added...");
+    },
+  });
 
   if (isError) {
     return (
@@ -52,7 +57,7 @@ export default function Home() {
 
   return (
     <Box>
-      {showForm && <Form add={add} />}
+      {showForm && auth && <Form add={add} />}
       {data.map((item) => {
         return <Item key={item.id} item={item} remove={remove.mutate} />;
       })}
